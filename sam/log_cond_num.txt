@@ -1,1 +1,0 @@
-module [predictor.model.image_encoder.blocks.0.attn.qkv], cond_num_before_optimization: 296.2264099121094, cond_num_after_optimization: 14.706378936767578 
