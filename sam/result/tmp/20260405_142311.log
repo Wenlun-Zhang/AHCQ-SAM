@@ -1,0 +1,107 @@
+2026-04-05 14:23:26,362 - ahcqsam - INFO - quant encoder
+2026-04-05 14:23:26,362 - ahcqsam - INFO - True
+2026-04-05 14:23:26,362 - ahcqsam - INFO - acnr
+2026-04-05 14:23:26,362 - ahcqsam - INFO - False
+2026-04-05 14:23:26,362 - ahcqsam - INFO - cag
+2026-04-05 14:23:26,362 - ahcqsam - INFO - True
+2026-04-05 14:23:26,363 - ahcqsam - INFO - hluq
+2026-04-05 14:23:26,363 - ahcqsam - INFO - True
+2026-04-05 14:23:26,363 - ahcqsam - INFO - lnq
+2026-04-05 14:23:26,363 - ahcqsam - INFO - True
+2026-04-05 14:23:26,363 - ahcqsam - INFO - do sign
+2026-04-05 14:23:26,363 - ahcqsam - INFO - True
+2026-04-05 14:23:26,363 - ahcqsam - INFO - do log_quant
+2026-04-05 14:23:26,363 - ahcqsam - INFO - True
+2026-04-05 14:23:29,658 - ahcqsam - INFO - start to detect dimodal distribution
+2026-04-05 14:23:29,660 - ahcqsam - INFO - predictor.model.mask_decoder.transformer.layers.0.cross_attn_token_to_image
+2026-04-05 14:23:29,660 - ahcqsam - INFO - True
+2026-04-05 14:23:29,660 - ahcqsam - INFO - predictor.model.mask_decoder.transformer.layers.1.cross_attn_token_to_image
+2026-04-05 14:23:29,660 - ahcqsam - INFO - True
+2026-04-05 14:23:29,660 - ahcqsam - INFO - predictor.model.mask_decoder.transformer.final_attn_token_to_image
+2026-04-05 14:23:29,660 - ahcqsam - INFO - True
+2026-04-05 14:23:29,661 - ahcqsam - INFO - bimodal integration end
+2026-04-05 14:54:28,413 - ahcqsam - INFO - the calibration time is 1861.2323160171509
+2026-04-05 14:54:28,413 - ahcqsam - INFO - begin to do reconstruction
+2026-04-05 14:54:28,417 - ahcqsam - INFO - begin reconstruction for module [predictor.model.image_encoder.blocks.0]:
+QunatEncoderOurBlock(
+  (norm1): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+  (attn): QuantEncoderOurAttentionBlock(
+    (qkv): PreQuantizedLayer(
+      (module): QLinear(
+        in_features=768, out_features=2304, bias=True
+        (weight_fake_quant): AdaRoundFakeQuantize(
+          fake_quant_enabled=1, observer_enabled=0, symmetric=False, bit=4, ch_axis=0, quant_min=0, quant_max=15
+          (observer): MSEObserver()
+        )
+      )
+      (layer_pre_act_fake_quantize): GroupLSQFakeQuantize(
+        fake_quant_enabled=1, observer_enabled=0, symmetric=False, bit=4, ch_axis=3, quant_min=0, quant_max=15
+        (observer): AvgMinMaxGroupObserver()
+      )
+    )
+    (proj): PreQuantizedLayer(
+      (module): QLinear(
+        in_features=768, out_features=768, bias=True
+        (weight_fake_quant): AdaRoundFakeQuantize(
+          fake_quant_enabled=1, observer_enabled=0, symmetric=False, bit=4, ch_axis=0, quant_min=0, quant_max=15
+          (observer): MSEObserver()
+        )
+      )
+      (layer_pre_act_fake_quantize): LSQFakeQuantize(
+        fake_quant_enabled=1, observer_enabled=0, symmetric=False, bit=4, ch_axis=-1, quant_min=0, quant_max=15
+        (observer): AvgMinMaxObserver()
+      )
+    )
+    (softmax_post_act_fake_quantize): LogTransformQuantize(
+      fake_quant_enabled=1, observer_enabled=0, symmetric=False, bit=4, ch_axis=-1, quant_min=0, quant_max=15
+      (observer): LogTransformObserver()
+    )
+    (q_post_act_fake_quantize): LSQFakeQuantize(
+      fake_quant_enabled=1, observer_enabled=0, symmetric=False, bit=4, ch_axis=-1, quant_min=0, quant_max=15
+      (observer): AvgMinMaxObserver()
+    )
+    (k_post_act_fake_quantize): LSQFakeQuantize(
+      fake_quant_enabled=1, observer_enabled=0, symmetric=False, bit=4, ch_axis=-1, quant_min=0, quant_max=15
+      (observer): AvgMinMaxObserver()
+    )
+    (v_post_act_fake_quantize): LSQFakeQuantize(
+      fake_quant_enabled=1, observer_enabled=0, symmetric=False, bit=4, ch_axis=-1, quant_min=0, quant_max=15
+      (observer): AvgMinMaxObserver()
+    )
+  )
+  (norm2): LayerNorm((768,), eps=1e-06, elementwise_affine=True)
+  (mlp): QuantEncoderMLPBlock(
+    (lin1): PreQuantizedLayer(
+      (module): QLinear(
+        in_features=768, out_features=3072, bias=True
+        (weight_fake_quant): AdaRoundFakeQuantize(
+          fake_quant_enabled=1, observer_enabled=0, symmetric=False, bit=4, ch_axis=0, quant_min=0, quant_max=15
+          (observer): MSEObserver()
+        )
+      )
+      (layer_pre_act_fake_quantize): GroupLSQFakeQuantize(
+        fake_quant_enabled=1, observer_enabled=0, symmetric=False, bit=4, ch_axis=3, quant_min=0, quant_max=15
+        (observer): AvgMinMaxGroupObserver()
+      )
+    )
+    (lin2): PreQuantizedLayer(
+      (module): QLinear(
+        in_features=3072, out_features=768, bias=True
+        (weight_fake_quant): AdaRoundFakeQuantize(
+          fake_quant_enabled=1, observer_enabled=0, symmetric=False, bit=4, ch_axis=0, quant_min=0, quant_max=15
+          (observer): MSEObserver()
+        )
+      )
+      (layer_pre_act_fake_quantize): HybridQuantize(
+        fake_quant_enabled=1, observer_enabled=0, symmetric=False, bit=4, ch_axis=-1, quant_min=0, quant_max=15
+        (observer): HybridParamObserver()
+      )
+    )
+    (act): GELU(approximate='none')
+  )
+)
+2026-04-05 14:54:31,536 - ahcqsam - INFO - mlp.act
+2026-04-05 14:54:31,536 - ahcqsam - INFO - <class 'ahcqsam.model.quant_model.QunatEncoderOurBlock'>
+2026-04-05 14:54:31,536 - ahcqsam - INFO - 8
+2026-04-05 14:54:31,537 - ahcqsam - INFO - in_cpu 32
+2026-04-05 14:55:34,268 - ahcqsam - INFO - Total loss:	1.7486 (rec:1.7486, round:0.0000, rw:0.0000)	b=20.00	count=500

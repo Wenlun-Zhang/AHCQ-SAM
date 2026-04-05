@@ -1,0 +1,4 @@
+# ninja log v5
+0	4034	1775364400583132939	/home/zhang/Project/AHCQ-SAM/sam/projects/instance_segment_anything/ops/build/temp.linux-x86_64-3.11/home/zhang/Project/AHCQ-SAM/sam/projects/instance_segment_anything/ops/src/cpu/ms_deform_attn_cpu.o	b1182321507e2e32
+1	13487	1775364410035552783	/home/zhang/Project/AHCQ-SAM/sam/projects/instance_segment_anything/ops/build/temp.linux-x86_64-3.11/home/zhang/Project/AHCQ-SAM/sam/projects/instance_segment_anything/ops/src/vision.o	ebb2af427804cb3b
+1	14333	1775364410879590272	/home/zhang/Project/AHCQ-SAM/sam/projects/instance_segment_anything/ops/build/temp.linux-x86_64-3.11/home/zhang/Project/AHCQ-SAM/sam/projects/instance_segment_anything/ops/src/cuda/ms_deform_attn_cuda.o	5e1c5471886a2d82

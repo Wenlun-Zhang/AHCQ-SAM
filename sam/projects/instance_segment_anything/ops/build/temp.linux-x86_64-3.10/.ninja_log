@@ -1,0 +1,6 @@
+# ninja log v5
+0	3870	1775365373730292030	/home/zhang/Project/AHCQ-SAM/sam/projects/instance_segment_anything/ops/build/temp.linux-x86_64-3.10/home/zhang/Project/AHCQ-SAM/sam/projects/instance_segment_anything/ops/src/cpu/ms_deform_attn_cpu.o	d27d71a6d17b650e
+1	13219	1775365383078706637	/home/zhang/Project/AHCQ-SAM/sam/projects/instance_segment_anything/ops/build/temp.linux-x86_64-3.10/home/zhang/Project/AHCQ-SAM/sam/projects/instance_segment_anything/ops/src/vision.o	697af914e7552b7d
+0	13907	1775365383762736975	/home/zhang/Project/AHCQ-SAM/sam/projects/instance_segment_anything/ops/build/temp.linux-x86_64-3.10/home/zhang/Project/AHCQ-SAM/sam/projects/instance_segment_anything/ops/src/cuda/ms_deform_attn_cuda.o	a162cb8e76dfd7c1
+11	4004	1775366039359815909	/home/zhang/Project/AHCQ-SAM/sam/projects/instance_segment_anything/ops/build/temp.linux-x86_64-3.10/home/zhang/Project/AHCQ-SAM/sam/projects/instance_segment_anything/ops/src/cpu/ms_deform_attn_cpu.o	d27d71a6d17b650e
+11	13287	1775366048636227400	/home/zhang/Project/AHCQ-SAM/sam/projects/instance_segment_anything/ops/build/temp.linux-x86_64-3.10/home/zhang/Project/AHCQ-SAM/sam/projects/instance_segment_anything/ops/src/vision.o	697af914e7552b7d
