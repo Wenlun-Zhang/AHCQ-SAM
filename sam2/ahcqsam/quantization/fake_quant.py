@@ -580,11 +580,13 @@ class AdaptiveGranularityQuantize(QuantizeBase):
     def quantize(self, x, scale):
         levels = self.observer.quant_max - self.observer.quant_min + 1
         x = torch.clamp(x, 1e-20, None)
-        x_int = round_ste(-1 * (x / scale).log2() * self.tau)
+        eps = torch.finfo(torch.float32).eps
+        safe_scale = scale.abs().clamp_min(eps)
+        x_int = round_ste(-1 * (x / safe_scale).log2() * self.tau)
 
         softmax_mask = x_int >= levels
         x_q = torch.clamp(x_int, 0, levels - 1)
-        X = scale * 2 ** (-1 * x_q / self.tau)
+        X = safe_scale * 2 ** (-1 * x_q / self.tau)
         X[softmax_mask] = torch.Tensor([0.0])
 
         return X
@@ -700,8 +702,18 @@ class HybridQuantize(QuantizeBase):
         self.scale_uni = torch.nn.Parameter(torch.tensor([scale_uni], dtype=torch.float, device='cuda'))
 
     def quantize_activation(self, x: torch.Tensor):
-        xq = fake_hybrid_quantize_per_tensor_affine(x, self.fp_min, self.observer.quant_min, self.observer.quant_max,
-                                                    self.scale_log, self.scale_uni, self.grid_rate)
+        eps = torch.finfo(torch.float32).eps
+        safe_scale_log = self.scale_log.abs().clamp_min(eps)
+        safe_scale_uni = self.scale_uni.abs().clamp_min(eps)
+        xq = fake_hybrid_quantize_per_tensor_affine(
+            x,
+            self.fp_min,
+            self.observer.quant_min,
+            self.observer.quant_max,
+            safe_scale_log,
+            safe_scale_uni,
+            self.grid_rate,
+        )
         return xq
 
     def forward(self, x):
@@ -772,11 +784,14 @@ class LogTransformQuantize(QuantizeBase):
     def quantize(self, x, scale, alpha):
         levels = self.observer.quant_max - self.observer.quant_min + 1
 
-        x = torch.clamp(x, 1e-20, scale.data)
+        eps = torch.finfo(torch.float32).eps
+        safe_scale = scale.abs().clamp_min(eps)
+        safe_alpha = alpha.abs().clamp_min(eps)
+        x = torch.clamp(x, 1e-20, safe_scale.detach())
 
-        denominator = torch.log(1 + alpha * scale)
+        denominator = torch.log1p(safe_alpha * safe_scale).clamp_min(eps)
 
-        x_tilde = torch.log(1 + alpha * x) / denominator
+        x_tilde = torch.log1p(safe_alpha * x) / denominator
 
         x_int = round_ste(x_tilde * levels)
 
@@ -784,8 +799,12 @@ class LogTransformQuantize(QuantizeBase):
 
         x_tilde_recon = x_q / levels
 
-        exp_term = torch.exp(x_tilde_recon * denominator)
-        X_recon = (exp_term - 1) / alpha
+        X_recon = torch.expm1(x_tilde_recon * denominator) / safe_alpha
+
+        zero_mask = x_q == 0
+        X_recon[zero_mask] = 0.0
+
+        return X_recon
 
         zero_mask = x_q == 0
         X_recon[zero_mask] = 0.0
