@@ -702,18 +702,8 @@ class HybridQuantize(QuantizeBase):
         self.scale_uni = torch.nn.Parameter(torch.tensor([scale_uni], dtype=torch.float, device='cuda'))
 
     def quantize_activation(self, x: torch.Tensor):
-        eps = torch.finfo(torch.float32).eps
-        safe_scale_log = self.scale_log.abs().clamp_min(eps)
-        safe_scale_uni = self.scale_uni.abs().clamp_min(eps)
-        xq = fake_hybrid_quantize_per_tensor_affine(
-            x,
-            self.fp_min,
-            self.observer.quant_min,
-            self.observer.quant_max,
-            safe_scale_log,
-            safe_scale_uni,
-            self.grid_rate,
-        )
+        xq = fake_hybrid_quantize_per_tensor_affine(x, self.fp_min, self.observer.quant_min, self.observer.quant_max,
+                                                    self.scale_log, self.scale_uni, self.grid_rate)
         return xq
 
     def forward(self, x):
@@ -784,14 +774,11 @@ class LogTransformQuantize(QuantizeBase):
     def quantize(self, x, scale, alpha):
         levels = self.observer.quant_max - self.observer.quant_min + 1
 
-        eps = torch.finfo(torch.float32).eps
-        safe_scale = scale.abs().clamp_min(eps)
-        safe_alpha = alpha.abs().clamp_min(eps)
-        x = torch.clamp(x, 1e-20, safe_scale.detach())
+        x = torch.clamp(x, 1e-20, scale.data)
 
-        denominator = torch.log1p(safe_alpha * safe_scale).clamp_min(eps)
+        denominator = torch.log(1 + alpha * scale)
 
-        x_tilde = torch.log1p(safe_alpha * x) / denominator
+        x_tilde = torch.log(1 + alpha * x) / denominator
 
         x_int = round_ste(x_tilde * levels)
 
@@ -799,12 +786,8 @@ class LogTransformQuantize(QuantizeBase):
 
         x_tilde_recon = x_q / levels
 
-        X_recon = torch.expm1(x_tilde_recon * denominator) / safe_alpha
-
-        zero_mask = x_q == 0
-        X_recon[zero_mask] = 0.0
-
-        return X_recon
+        exp_term = torch.exp(x_tilde_recon * denominator)
+        X_recon = (exp_term - 1) / alpha
 
         zero_mask = x_q == 0
         X_recon[zero_mask] = 0.0
