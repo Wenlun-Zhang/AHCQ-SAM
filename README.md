@@ -13,7 +13,7 @@ The Segment Anything Model (SAM) has revolutionized image and video segmentation
 
 **Update on Aug. 22, 2026**
 
-We release our code implementation of [PQ-SAM (ECCV'24)](https://github.com/chengtao-lv/PTQ4SAM](https://eccv.ecva.net/virtual/2024/poster/2654), [Mix-QSAM (CVPRW'25)](https://openaccess.thecvf.com/content/CVPR2025W/eLVM/html/Ranjan_Mix-QSAM_Mixed-Precision_Quantization_of_the_Segment_Anything_Model_CVPRW_2025_paper.html), [Mix-QSAM2 (AAAI'26)](https://ojs.aaai.org/index.php/AAAI/article/view/37374), and AHCQ-SAM on COCO image segmentation task for reference. Please follow the README guidance in each sub-directory to run the experiments.
+We release our code implementation of [PQ-SAM (ECCV'24)](https://eccv.ecva.net/virtual/2024/poster/2654), [Mix-QSAM (CVPRW'25)](https://openaccess.thecvf.com/content/CVPR2025W/eLVM/html/Ranjan_Mix-QSAM_Mixed-Precision_Quantization_of_the_Segment_Anything_Model_CVPRW_2025_paper.html), [Mix-QSAM2 (AAAI'26)](https://ojs.aaai.org/index.php/AAAI/article/view/37374), and AHCQ-SAM on COCO image segmentation task for reference. Please follow the README guidance in each sub-directory to run the experiments.
 
 ## Citation
 
