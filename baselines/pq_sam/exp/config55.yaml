@@ -1,0 +1,30 @@
+a_qconfig:
+    quantizer: PQSAMGADTFakeQuantize
+    observer: AvgMinMaxObserver
+    bit: 5
+    symmetric: false
+    ch_axis: -1
+w_qconfig:
+    quantizer: LSQFakeQuantize
+    observer: MSEObserver
+    bit: 5
+    symmetric: false
+    ch_axis: 0
+calibrate:
+    sample: 100
+pq_sam:
+    enabled: true
+    gadt: true
+    ohc: true
+    outlier_lambda: 1.5
+    grouping_alpha: 0.9
+    max_tokens_per_layer: 65536
+    max_elements_per_layer: 2097152
+    max_quantile_values: 1048576
+    max_channel_quantile_tokens: 4096
+    epochs: 100
+    batch_size: 1
+    lr: 0.00001
+    teacher_device: cuda:1
+    max_calib_prompts: 16
+    train_encoder: false
